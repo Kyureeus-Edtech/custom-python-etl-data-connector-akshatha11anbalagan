@@ -1,136 +1,54 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/b1x675tx)
-# SSN-college-software-architecture-Assignments-
-Assignment repository for building custom Python ETL data connectors (Kyureeus EdTech, SSN CSE). Students: Submit your ETL scripts here. Make sure your commit message includes your name and roll number.
-# Software Architecture Assignment: Custom Python ETL Data Connector
+Custom Python ETL Data Connector – Kyureeus EdTech (SSN CSE)
+This repository contains my assignment for the Software Architecture course: building a custom Python ETL data connector to extract data from an API, transform it for compatibility, and load it into MongoDB.
+Student: Akshatha Anbalagan
+Roll Number: 3122225001007
+Branch: AkshathaAnbalagan_3122225001007_A
 
-Welcome to the official repository for submitting your Software Architecture assignment on building custom data connectors (ETL pipelines) in Python. This assignment is part of the Kyureeus EdTech program for SSN CSE students.
+📝 Overview
+This project demonstrates a full ETL pipeline:
+Extract: Connects to a public/open API endpoint and fetches JSON data.
+Transform: Cleans, validates, and formats data for MongoDB storage.
+Load: Inserts the transformed data into a MongoDB collection with ingestion timestamps for auditing.
+Note: The API used in this project does not require authentication or API keys. It is a publicly accessible endpoint.
 
----
-Guideline: Building and Managing Custom Data Connectors (ETL Pipeline) in Python
+🔗 API Endpoint
+Endpoint URL: http://bits.cybergreen.net/prod/stats/latest/count.csv
+Type: Public CSV file, no authentication required
+Response Format: CSV (Comma-Separated Values)
 
-1. Setting Up the Connector Environment
-a. Choose Your API Provider: Identify a data provider and understand its Base URL, Endpoints, and Authentication.
-b. Understand the API Documentation: Focus on headers, query params, pagination, rate limits, and response structure.
+📊 Data Provided by CyberGreen CSV
+The ETL pipeline fetches data from the CyberGreen CSV file and stores it in MongoDB in the following format:
+Metrics: Numeric counts for various categories of cybersecurity incidents. Example values: 2, 3, 82, 123, 20330, 37629.
+Dates: Each record includes a start and end date for the data coverage (e.g., 2018-07-03 to 2021-07-27).
+Countries: Source and target country codes (e.g., US, NG) indicating the geographic scope of the data.
+MongoDB Metadata: Each document has a unique _id and an ingestion_ts timestamp recording when the data was inserted (e.g., 2025-08-14T12:55:55.342+00:00).
+This structure ensures that the data is ready for analysis, auditing, and historical tracking of cybersecurity statistics.
 
+🔧 Implementation Details
+ETL Pipeline:
+Extract: Uses pandas to read the CSV file from the public URL.
+Transform: Cleans and formats data to ensure compatibility with MongoDB.
+Load: Inserts records into a MongoDB collection named cybergreen_raw, adding ingestion timestamps.
+Error Handling & Validation:
+Handles missing values, empty rows, or connectivity issues.
+Ensures smooth insertion into MongoDB without duplicates or corrupted data.
 
-2. Secure API Authentication Using Environment Variables
-a. Create a `.env` File Locally: Store API keys and secrets as KEY=VALUE pairs.
-b. Load Environment Variables in Code: Use libraries like `dotenv` to securely load environment variables.
+✅ Steps to Run
 
+Clone your branch:
+git clone https://github.com/Kyureeus-Edtech/custom-python-etl-data-connector-akshatha11anbalagan.git
+git checkout AkshathaAnbalagan_3122225001007_A
 
-3. Design the ETL Pipeline
-Extract: Connect to the API, pass tokens/headers, and collect JSON data.
-Transform: Clean or reformat the data for MongoDB compatibility.
-Load: Store the transformed data into a MongoDB collection.
+Install dependencies:
+pip install -r requirements.txt
+Run the ETL script:
+python etl_connector.py
+Verify data in MongoDB collection cybergreen_raw.
 
+📚 References
+PyMongo Documentation
+pandas Documentation
+CyberGreen CSV
 
-4. MongoDB Collection Strategy
-Use one collection per connector, e.g., `connector_name_raw`.
-Store ingestion timestamps to support audits or updates.
-
-
-5. Iterative Testing & Validation
-Test for invalid responses, empty payloads, rate limits, and connectivity errors.
-Ensure consistent insertion into MongoDB.
-
-
-6. Git and Project Structure Guidelines
-a. Use a Central Git Repository: Clone the shared repo and create a new branch for your connector.
-b. Ignore Secrets: Add `.env` to `.gitignore` before the first commit.
-c. Push and Document: Write README.md with endpoint details, API usage, and example output.
-
-
-Final Checklist for Students
-Understand API documentation
-Secure credentials in `.env`
-Build complete ETL script
-Validate MongoDB inserts
-Push code to your branch
-Include descriptive README
-Submit Pull Request
-
-## 📋 Assignment Overview
-
-**Goal:**  
-Develop a Python script to connect with an API provider, extract data, transform it for compatibility, and load it into a MongoDB collection. Follow secure coding and project structure practices as outlined below.
-
----
-
-## ✅ Submission Checklist
-
-- [ ] Choose a data provider (API) and understand its documentation
-- [ ] Secure all API credentials using a `.env` file
-- [ ] Build a complete ETL pipeline: Extract → Transform → Load (into MongoDB)
-- [ ] Test and validate your pipeline (handle errors, invalid data, rate limits, etc.)
-- [ ] Follow the provided Git project structure
-- [ ] Write a clear and descriptive `README.md` in your folder with API details and usage instructions
-- [ ] **Include your name and roll number in your commit messages**
-- [ ] Push your code to your branch and submit a Pull Request
-
----
-
-## 📦 Project Structure
-
-/your-branch-name/
-├── etl_connector.py
-├── .env
-├── requirements.txt
-├── README.md
-└── (any additional scripts or configs)
-
-
-- **`.env`**: Store sensitive credentials; do **not** commit this file.
-- **`etl_connector.py`**: Your main ETL script.
-- **`requirements.txt`**: List all Python dependencies.
-- **`README.md`**: Instructions for your connector.
-
----
-
-## 🛡️ Secure Authentication
-
-- Store all API keys/secrets in a local `.env` file.
-- Load credentials using the `dotenv` Python library.
-- Add `.env` to `.gitignore` before committing.
-
----
-
-## 🗃️ MongoDB Guidelines
-
-- Use one MongoDB collection per connector (e.g., `connectorname_raw`).
-- Store ingestion timestamps for audit and update purposes.
-
----
-
-## 🧪 Testing & Validation
-
-- Check for invalid responses, empty payloads, rate limits, and connectivity issues.
-- Ensure data is correctly inserted into MongoDB.
-
----
-
-## 📝 Git & Submission Guidelines
-
-1. **Clone the repository** and create your own branch.
-2. **Add your code and documentation** in your folder/branch.
-3. **Do not commit** your `.env` or secrets.
-4. **Write clear commit messages** (include your name and roll number).
-5. **Submit a Pull Request** when done.
-
----
-
-## 💡 Additional Resources
-
-- [python-dotenv Documentation](https://saurabh-kumar.com/python-dotenv/)
-- [MongoDB Python Driver (PyMongo)](https://pymongo.readthedocs.io/en/stable/)
-- [API Documentation Example](https://restfulapi.net/)
-
----
-
-## 📢 Need Help?
-
-- Post your queries in the [KYUREEUS/SSN College - WhatsApp group](#) .
-- Discuss issues, share progress, and help each other.
-
----
-
-Happy coding! 🚀
+💡 Summary
+This ETL connector demonstrates a complete pipeline from a public CyberGreen CSV to MongoDB, with robust error handling, data validation, and a clean project structure. The connector is ready for extension to other APIs, including those requiring authentication.

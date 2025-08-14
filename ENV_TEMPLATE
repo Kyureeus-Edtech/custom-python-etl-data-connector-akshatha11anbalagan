@@ -1,0 +1,6 @@
+
+CYBERGREEN_CSV_URL=api_endpoint_url
+
+MONGO_URI=mongo_connection_string
+MONGO_DB=db_name
+MONGO_COLLECTION=collection_name
